@@ -1,0 +1,1 @@
+Konfiguration=index.php

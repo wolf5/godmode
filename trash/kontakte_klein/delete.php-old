@@ -1,0 +1,117 @@
+<?
+include("../../inc/config.inc.php");
+include("../../inc/db.inc.php");  
+include("../../inc/func.inc.php");
+?>
+<html>
+<head>
+  <title><?=$_config_title?></title>
+	<link rel="stylesheet" href="../../main.css" type=text/css>
+	<script src="../../inc/functions.js" type="text/javascript" language="javascript"></script>
+	<script language="JavaScript" type="text/javascript">
+	<!--
+		function delkontakt(user,id) {
+			if(confirm("Möchten Sie den Kontakt "+user+" wirklich Löschen?")){
+				location.href="<?=$PHP_SELF?>?dele="+id;
+			}
+		}
+	//-->
+	</script>
+</head>
+<body onLoad="document.getElementById('term').focus()">
+<p class=titel>Kontakte:Löschen</p>
+<form method=post action="<?=$PHP_SELF?>">
+<input type=text name=term id=term value="<?=$term?>">
+<input type=submit name=search value="Suchen">
+</form>
+<?
+if($dele)
+{
+	$query=mysql_query("SELECT count(*) FROM Domains WHERE Besitzer = $dele AND endDate = 'NULL'");
+	list($anz_domains)=mysql_fetch_row($query);
+	$query=mysql_query("SELECT vorname,name,firma FROM Kontakte WHERE id=$dele");
+	list($vorname,$name,$firma)=mysql_fetch_row($query);
+	
+	if(isModule("domains")){
+		$query=mysql_query("SELECT count(*) FROM Domains WHERE Besitzer = $dele AND endDate = 'NULL'");
+		list($anz_domains)=mysql_fetch_row($query);
+	}
+	if($anz_domains>0) {
+		print "Der User ".formatName($firme,$name,$vorname)." kann nicht gelöscht werden, da er noch $anz_domain aktive Domain(s) besitzt.<br><br>\n";
+	} else {
+		$query=mysql_query("UPDATE Kontakte SET aktiv=0 WHERE id=$dele");
+		if($query){
+			print "Der User ".formatName($firme,$name,$vorname)." wurde gelöscht<br><br>\n";
+		} else {
+			print "Fehler: Der User ".formatName($firme,$name,$vorname)." konnte nicht gelöscht werden<br><br>\n";
+		}
+  }
+}
+if(!$start){
+  $start=0;
+}
+if($term){
+	$query=mysql_query("SELECT id, name, vorname,firma FROM Kontakte WHERE aktiv=1 AND ".formatSearchString($term,array("firma","name","vorname"))."ORDER BY name LIMIT $start,$_config_entrysperpage");
+} else {
+	$query=mysql_query("SELECT id, name, vorname,firma FROM Kontakte WHERE aktiv=1 ORDER BY name LIMIT $start,$_config_entrysperpage");
+}
+if(@mysql_num_rows($query)>0)
+{
+  print "<table border=0 cellpadding=3 cellspacing=0 >
+    <tr>
+      <td width=100 style=\"font-weight:bold\">Name</td>\n";
+	if(isModule("domains")){
+		print "	<td width=100 style=\"font-weight:bold\">Domains</td>\n";
+	}
+   	print "</tr>\n";
+  for($i=0;list($id,$name,$vorname,$firma)=mysql_fetch_row($query);$i++)
+	{
+		if(($i%2)==0){
+      $bgcolor=$_config_tbl_bgcolor1;
+    } else {
+      $bgcolor=$_config_tbl_bgcolor2;
+    }
+    print "<tr onmouseover=\"setPointer(this, 'over', '#$bgcolor', '#$_config_tbl_bghover', '')\" onmouseout=\"setPointer(this, 'out', '#$bgcolor', '#$_config_tbl_bghover', '')\" onclick=\"delkontakt('".formatName($firma,$name,$vorname)."','$id')\">
+      <td width=300 bgcolor=\"#$bgcolor\">".formatName($firma,$name,$vorname)."</td>\n";
+		if(isModule("domains")){
+			print "<td bgcolor=\"#$bgcolor\">";
+			$query2=mysql_query("SELECT id,domain FROM Domains WHERE kontakt='$id'");
+			$first=1;
+			while(list($domain_id,$domain)=mysql_fetch_row($query2))
+			{
+				if($first)
+					$first=0;
+				else
+					echo ", ";
+				echo "<a href=\"domains_detail.php?id=$domain_id\">$domain</a>";
+			}
+			print"</td>\n";
+		}
+    print "</tr>\n";
+		if($id>$max)
+			$max=$id;
+	}
+  print "<tr>
+    <td colspan=2 align=center>";
+  if($start>0){
+    print "<a href=\"$PHP_SELF?start=".($start-$_config_entrysperpage)."$attr\"><<<</a>";
+  }
+  if($term){
+    $query=mysql_query("SELECT count(*) FROM Kontakte WHERE ".formatSearchString($term,array("firma","name","vorname")));
+  } else {
+    $query=mysql_query("SELECT count(*) FROM Kontakte");
+  }
+  if(($start+$_config_entrysperpage)<=mysql_result($query,0,0)){
+    if($start>0){
+      print " | ";
+    }
+    print "<a href=\"$PHP_SELF?start=".($start+$_config_entrysperpage)."$attr\">>>></a>";
+  }
+  print "</td>
+    </tr>
+    </table>\n";
+}
+?>
+
+</body>
+</html>

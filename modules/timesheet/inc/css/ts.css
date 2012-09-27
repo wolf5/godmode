@@ -1,0 +1,41 @@
+button.time {
+	padding: 20px;
+	margin: 0 10px 10px 0;
+}
+
+button.time#active
+	{
+	border-style: inset;
+	font-weight: bold;
+	}
+	
+#edit
+	{
+	position: absolute;
+	top: 20px;
+	left: 20px;
+	width: 100px;
+	height: 200px;
+	/*display: none;*/
+	}
+	
+#tableDiv
+	{
+	height: 100%;
+	overflow: auto;
+	}
+	
+#tableFS
+	{
+	height: 400px;
+	}
+	
+#clock
+	{
+	font-size: 40px;
+	}
+	
+.dFS
+	{
+	height: 150px;
+	}
