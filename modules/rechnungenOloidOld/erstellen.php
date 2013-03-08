@@ -1,4 +1,4 @@
-<? 
+<?php 
 include("../../inc/config.inc.php");
 include("../../inc/func.inc.php");
 include("../produkte/func.inc.php");
@@ -64,7 +64,7 @@ if(substr($action,0,3)=="add") {
 
 <html>
 <head>
-  <title><?=$_config_title?></title>
+  <title><?php echo $_config_title?></title>
 	<link rel="stylesheet" href="../../main.css" type=text/css>
 	<script src="../../inc/functions.js" type="text/javascript" language="javascript"></script>
 	<script language="JavaScript" type="text/javascript">
@@ -77,14 +77,14 @@ if(substr($action,0,3)=="add") {
     window.open(file,'find','width=300,height=650,left=30,top=50,resizable=yes,scrollbars=no');
   }
 	function setMwst(value) {
-		<?
+		<?php
 			for($i=0;$i<$rows;$i++) {
 				print "document.getElementsByName('mwst[$i]')[0].value=value;";
 			}
 		?>
 	}
   function setPreis(value) {
-    <?
+    <?php
       for($i=0;$i<$rows;$i++) {
         print "document.getElementsByName('preis[$i]')[0].value=value;";
       }
@@ -93,12 +93,12 @@ if(substr($action,0,3)=="add") {
 	//-->
 	</script>
 </head>
-<body<?
+<body<?php
 if($showErstellen) print " onLoad=\"javascript:opener.location.href='erstellen1.php?id=$kontakt';\"";
 ?>>
 <p class=titel>Rechnungen:Rechnung erstellen</p>
-<a href="#" onclick="javascript:window.open('<?=$PHP_SELF?>?popup=1','rechnung_erstellen','fullscreen=no,scrollbars=auto,status=yes,menubar=no,toolbar=no,width=600,height=400,resizable=yes');">In neuem Fenster</a><br><br>
-<?
+<a href="#" onclick="javascript:window.open('<?php=$PHP_SELF?>?popup=1','rechnung_erstellen','fullscreen=no,scrollbars=auto,status=yes,menubar=no,toolbar=no,width=600,height=400,resizable=yes');">In neuem Fenster</a><br><br>
+<?php
 if($err) {
 	print "<b>Fehler:</b> $err<br><br>";
 }

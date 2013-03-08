@@ -1,4 +1,4 @@
-<?
+<?php
 function kontoExistiert($nr) {
   global $buchhaltung,$_config_mysql_buchhaltung_db;
   mysql_select_db($_config_mysql_buchhaltung_db);

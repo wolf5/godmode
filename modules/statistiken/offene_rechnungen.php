@@ -1,4 +1,4 @@
-<? 
+<?php 
 include("../../inc/config.inc.php");
 include("../../inc/func.inc.php");
 ?>
@@ -11,7 +11,7 @@ include("../../inc/func.inc.php");
 <body>
 <p class=titel>Statistiken:Offene Rechnungen</p>
 <br><br>
-<?
+<?php
 $query=mysql_query("select DATE_FORMAT(rech.datum,'$_config_date') as datum, rech.id,rech.kontakt,sum($_config_posbetrag) as betrag,sum(($_config_posbetrag)*rech.fx) as betrag_chf,rech.waehrung,rech.betreff,rech.zahlungsfrist  FROM Rechnungen rech, Rechnungen_positionen pos WHERE pos.rechnung = rech.id AND rech.bezahlt is NULL GROUP BY rech.id ORDER BY datum");
 echo mysql_error();
 if(mysql_num_rows($query)>0){

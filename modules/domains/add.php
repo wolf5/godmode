@@ -1,4 +1,4 @@
-<? 
+<?php 
 include("../../inc/config.inc.php");
 include("../../inc/func.inc.php");
 include("func.inc.php");
@@ -83,7 +83,7 @@ if($submit) {
 ?>
 <html>
 <head>
-	<title><?=$_config_title?></title>
+	<title><?php echo $_config_title?></title>
 	<link rel="stylesheet" href="../../main.css" type=text/css>
 	<script src="../../inc/functions.js" type="text/javascript" language="javascript"></script>
 	<script language="javascript" type="text/javascript">
@@ -99,7 +99,7 @@ if($submit) {
 	//-->
 	</script>
 </head>
-<body onLoad="javascript:error('<?=$error?>');document.getElementById('domain').focus()">
+<body onLoad="javascript:error('<?php=$error?>');document.getElementById('domain').focus()">
 <p class=titel>Domains:Hinzufügen</p>
 <script language="JavaScript">
 <!--
@@ -113,7 +113,7 @@ function fillText(){
 }
 -->
 </script>
-<?
+<?php
 	if(!$startDate){
 		$startDate=date("d.m.Y");
 	}

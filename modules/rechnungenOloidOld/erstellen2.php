@@ -1,4 +1,4 @@
-<?
+<?php
 include("../../inc/config.inc.php");
   
 include("../../inc/func.inc.php");
@@ -19,12 +19,12 @@ if(!$force){
 ?>
 <html>
 <head>
-	<title><?=$_config_title?></title>
+	<title><?php echo $_config_title?></title>
   <link rel="stylesheet" href="../../main.css" type=text/css>
 </head>
 <body>
 <p class=titel>Rechnungen:Rechnungen erstellen</p>
-<?
+<?php
 //Prüfen ob diese Rechnung schon mal erstellt wurde
 $query=mysql_query("SELECT id FROM Rechnungen WHERE kontakt='$id' AND betreff='$betreff' AND datum = NOW()");
 if(@mysql_num_rows($query)==0 || $force==1) {

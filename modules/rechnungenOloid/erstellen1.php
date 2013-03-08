@@ -1,29 +1,25 @@
-<? 
+<?php 
 session_start();
-session_unregister("gut");
-session_unregister("pos");
-session_unregister("adresse");
-session_unregister("betreff");
-session_unregister("datum");
-session_unregister("text");
-session_unregister("footer");
-session_unregister("id");
-session_unregister("waehrung");
-session_unregister("zahlungsfrist");
+
 include("../../inc/config.inc.php");
 include("../../inc/func.inc.php");
 include("func.inc.php");
+
+$id = isset($_GET["id"]) ? $_GET["id"] : NULL;
+
 ?>
 
 <html>
 <head>
-  <title><?=$_config_title?></title>
+  <title><?php echo $_config_title?></title>
 	<link rel="stylesheet" href="../../main.css" type=text/css>
 </head>
 <body>
 <p class=titel>Rechnungen:Rechnungen erstellen</p>
-<?
-print "<form method=post action=\"erstellen2.php?id=$id\">
+<?php
+
+print "<form method=post action=\"erstellen2.php\">
+  <input type=hidden name=id value=\"".$id."\">
 	<table width=100% border=0>
 	<tr>
 		<td height=100 valign=top>
@@ -143,6 +139,7 @@ Rechnung erstellen in: ".getWaehrungsList("waehrung","",100)."</p>
 	</td>
 </tr>
 </table><br>";
+
 
 ?>
 <input type=submit value="Rechnung Drucken">

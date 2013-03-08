@@ -1,17 +1,17 @@
-<? 
+<?php 
 include("../../inc/config.inc.php");
   
 include("../../inc/func.inc.php");
 ?>
 <html>
 <head>
-  <title><?=$_config_title?></title>
+  <title><?php echo $_config_title?></title>
 	<link rel="stylesheet" href="../../main.css" type=text/css>
 	<script src="../../inc/functions.js" type="text/javascript" language="javascript"></script>
 	<script  type="text/javascript" language="javascript">
 	<!--
 		function setValue(val){
-			opener.document.getElementsByName('produkt[<?=$field?>]')[0].value = val;
+			opener.document.getElementsByName('produkt[<?php=$field?>]')[0].value = val;
 			self.close();
 		}
 	//-->
@@ -20,12 +20,12 @@ include("../../inc/func.inc.php");
 <body onLoad="document.getElementById('term').focus()">
 <p class=titel>Produkt Suchen</p>
 
-<form method=get action="<?=$PHP_SELF?>">
-<input type=hidden name=field value=<?=$field?>>
-<input type=text name=term id=term value="<?=$term?>">
+<form method=get action="<?php=$PHP_SELF?>">
+<input type=hidden name=field value=<?php=$field?>>
+<input type=text name=term id=term value="<?php=$term?>">
 <input type=submit name=search value="Suchen">
 </form>
-<?
+<?php
 $_config_entrysperpage=10;
 if(!$start){
   $start=0;

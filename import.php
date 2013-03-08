@@ -1,4 +1,4 @@
-<?
+<?php
 include("inc/config.inc.php");
 include("inc/db.inc.php");
 //Tabellen Löschen
@@ -10,7 +10,7 @@ $handle = fopen ("daten_2.txt", "r");
 while (!feof($handle)) {
 	$buffer = fgets($handle, 4096);
 $jee=$buffer;
-	$buffer = split(";",str_replace("\"","",str_replace("'","\\'",$buffer)));
+	$buffer = explode(";",str_replace("\"","",str_replace("'","\\'",$buffer)));
 	$firma=$buffer[2];
 	$anrede = $buffer[14];
 	if (!(stristr($anrede,"Sehr geehrte Damen und Herren")===FALSE)) {

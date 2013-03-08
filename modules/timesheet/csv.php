@@ -1,4 +1,4 @@
-<? 
+<?php 
 include("../../inc/config.inc.php");
 include("../../inc/func.inc.php");
 if(substr($_SERVER["PATH_INFO"],strlen($_SERVER["PATH_INFO"])-3,3)!="csv") {
@@ -40,7 +40,7 @@ if(substr($_SERVER["PATH_INFO"],strlen($_SERVER["PATH_INFO"])-3,3)!="csv") {
 		}
 	}
 	if(strlen($total)>0) {
-  	$total = split(",",$total);
+  	$total = explode(",",$total);
     for($i=0;$i<mysql_num_fields($query);$i++) {
       if(in_array(mysql_field_name($query,$i),$total)) {
 				print $total_val[$i];

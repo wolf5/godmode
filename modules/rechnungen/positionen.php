@@ -1,4 +1,4 @@
-<? 
+<?php 
 include("../../inc/config.inc.php");
   
 include("../../inc/func.inc.php");
@@ -6,13 +6,13 @@ include("../../inc/func.inc.php");
 
 <html>
 <head>
-  <title><?=$_config_title?></title>
+  <title><?php echo $_config_title?></title>
 	<link rel="stylesheet" href="../../main.css" type=text/css>
 	<script src="../../inc/functions.js" type="text/javascript" language="javascript"></script>
 </head>
 <body>
 <p class=titel>Rechnungen:Positionen</p>
-<?
+<?php
 $query=mysql_query("SELECT pos.id, pos.kontakt,pos.text,pos.text1,pos.betrag,pos.waehrung,DATE_FORMAT(pos.datum,'$_config_date') FROM Rechnungen_positionen pos, Kontakte kon WHERE Rechnung is NULL AND pos.kontakt = kon.id ORDER BY kon.firma");
 if(@mysql_num_rows($query)>0){
 	print "<table cellpadding=2 cellspacing=0 border=0 width=\"95%\">

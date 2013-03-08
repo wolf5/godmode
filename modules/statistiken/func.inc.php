@@ -1,4 +1,4 @@
-<?
+<?php
 function getAlignment($ueberschriften,$i) {
 	if(substr(trim($ueberschriften[$i]),0,1)=="<" ) {
 		return "right";

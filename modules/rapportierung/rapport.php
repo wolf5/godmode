@@ -1,4 +1,4 @@
-<?
+<?php
 include("../../inc/config.inc.php");
   
 include("../../inc/func.inc.php");
@@ -40,12 +40,12 @@ if(!$employee) $employee=getHttpUserId();
 ?>
 <html>
 <head>
-	<title><?=$_config_title?></title>
+	<title><?php echo $_config_title?></title>
 	<link rel="stylesheet" href="../../main.css" type=text/css>
 </head>
-<body onLoad="<?=error($error)?><?=alert($msg)?>document.getElementsByName('kontakt')[0].focus()">
+<body onLoad="<?php=error($error)?><?php=alert($msg)?>document.getElementsByName('kontakt')[0].focus()">
 <p class=titel>Rapportierung:Rapport erstellen</p>
-<?
+<?php
 print "<form method=post action=\"$PHP_SELF?id=$id\">\n";
 print "<table border=0>
     <tr>

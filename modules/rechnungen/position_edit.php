@@ -1,4 +1,4 @@
-<?
+<?php
 include("../../inc/config.inc.php");
   
 include("../../inc/func.inc.php");
@@ -22,12 +22,12 @@ if($submit) {
 ?>
 <html>
 <head>
-	<title><?=$_config_title?></title>
+	<title><?php echo $_config_title?></title>
 	<link rel="stylesheet" href="../../main.css" type=text/css>
 </head>
 <body onLoad="document.getElementsByName('kontakt')[0].focus()">
 <p class=titel>Rechungen:Position Editieren</p>
-<?
+<?php
 if($error){
 	print "<b>Fehler:</b> $error<br><br>";
 }	

@@ -1,4 +1,4 @@
-<?
+<?php
 $handle = fopen ("daten.txt", "r");
 $handle2 = fopen ("daten_2.txt", "w");
 

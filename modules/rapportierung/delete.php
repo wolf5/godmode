@@ -1,4 +1,4 @@
-<? 
+<?php 
 session_start();
 include("../../inc/config.inc.php");
   
@@ -21,12 +21,12 @@ if($del) {
 ?>
 <html>
 <head>
-  <title><?=$_config_title?></title>
+  <title><?php echo $_config_title?></title>
   <link rel="stylesheet" href="../../main.css" type=text/css>
 </head>
 <body>
 <p class=titel>Rapportierung:Rapport Löschen</p>
-<?
+<?php
   if($err){
     print "<b>Fehler:</b> $err<br><br>";
   }

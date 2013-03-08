@@ -1,15 +1,18 @@
 <?php
 include("../../inc/config.inc.php");
-
 include("../../inc/func.inc.php");
 
+$id = isset($_GET["id"]) ? $_GET["id"] : NULL;
+$besrnr = isset($_GET["besrnr"]) ? $_GET["besrnr"] : NULL;
+$type = isset($_GET["type"]) ? $_GET["type"] : NULL;
+             
 //SQL Selects, Titel setzen
 if($type=="mahnung") {
         $query = mysql_query("SELECT rech.id,rech.kontakt,rech.waehrung,DATE_FORMAT(mahn.datum,'$_config_date'),rech.bezahlt,mahn.adresse,mahn.betreff,mahn.text,mahn.footer,mahn.zahlungsfrist,mahn.besrnr FROM Rechnungen rech, Rechnungen_mahnungen mahn WHERE mahn.rechnung = rech.id AND mahn.id='$id'");
 } else {
         $query = mysql_query("SELECT id,kontakt,waehrung,DATE_FORMAT(datum,'$_config_date'),bezahlt,adresse,betreff,text,footer,zahlungsfrist,besrnr FROM Rechnungen WHERE id='$id'");
 }
-if(@mysql_num_rows($query)==0) {
+if(mysql_num_rows($query)==0) {
         print "Die Rechnung Nr. '$id' existiert nicht.";
         die();
 }
@@ -27,6 +30,7 @@ if($besrnr) $besrnr="-$besrnr";
 if(mysql_num_rows($query)==1)
 $sachbearbeiter=substr(mysql_result($query,0,0),0,1).substr(mysql_result($query,0,1),0,1);
 if($sachbearbeiter) $sachbearbeiter="Sachbearbeiter: $sachbearbeiter";
+
 //Rechnungspositionen holen
 if($type=="mahnung") {
         $rechnung_pos= mysql_query("SELECT text,text1,anzahl,betrag,waehrung,mwst,`key`,`value` FROM Rechnungen_positionen WHERE (rechnung='$rech_id' OR (`key`='mahnung' AND `value`='$id')) ORDER BY id");
@@ -59,7 +63,7 @@ $pdf->SetFont("Times","",24);
 $pdf->Text(40,15,$_config_rechnung_head_titel_logo);
 $pdf->SetFont("Arial","",10);
 $pdf->SetFont("Arial","B",10);
-$txt=split("\n",$_config_rechnung_head_titel_adresse);
+$txt=explode("\n",$_config_rechnung_head_titel_adresse);
 for($i=0,$height=19;$txt[$i];$i++,$height+=4){
         if($i==1){
                 $pdf->SetFont("Arial","",10);
@@ -86,7 +90,7 @@ $pdf->Cell(61,5,"$_config_rechnung_ort, $datum",0,1,"R");
 
 $pdf->Write(5,"\n\n$betreff\n\n");
 $pdf->SetFont("Helvetica","",10);
-if($text)
+if(isset($text))
         $pdf->Write(5,"$text\n");
 
 //Positionstitel
@@ -110,7 +114,7 @@ $pdf->SetFont("Helvetica","",9);
 while(list($text,$text1,$anzahl,$betrag,$waehrung_pos,$mwst,$key,$value)=mysql_fetch_row($rechnung_pos))
 {
         if($key!="produkt") $value="";
-        if($bgcolor){
+        if(isset($bgcolor)){
                 $bgcolor=0;
         } else {
                 $bgcolor=1;
@@ -159,15 +163,6 @@ while(list($text,$betrag,$waehrung_pos,$mwst)=mysql_fetch_row($gutschriften)){
   $pdf->Cell(35,5,getWaehrung($waehrung_pos)." ".formatBetrag(waehrungRound(($betrag+(($betrag/100)*$mwst)),$waehrung_pos)),0,1,"R",$bgcolor);
 }
 
-//Total
-$pdf->Ln();
-$pdf->SetFont("Helvetica","B",10);
-$pdf->Cell(59,5,"Nettobetrag",0,0,"L");
-$pdf->Cell(53,5,"Totalbetrag MWSt",0,0,"R");
-$pdf->Cell(70,5,"Zu überweisender Betrag",0,1,"R");
-$pdf->Cell(59,5,getWaehrung($waehrung)." ".formatBetrag(waehrungRound($total,$waehrung)),0,0,"L");
-$pdf->Cell(53,5,getWaehrung($waehrung)." ".formatBetrag(waehrungRound($total_mwst,$waehrung)),0,0,"R");
-$pdf->Cell(70,5,getWaehrung($waehrung)." ".formatBetrag(waehrungRound($total+$total_mwst,$waehrung)),0,1,"R");
 
 $pdf->Ln();
 /*

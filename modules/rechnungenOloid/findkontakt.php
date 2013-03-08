@@ -1,11 +1,16 @@
-<? 
+<?php 
 include("../../inc/config.inc.php");
-  
 include("../../inc/func.inc.php");
+
+$term = isset($_GET["term"]) ? $_GET["term"] : NULL;
+$start = isset($_GET["start"]) ? $_GET["start"] : 0;
+$field_names = isset($field_names) ? $field_names : NULL;    
+
 ?>
+
 <html>
 <head>
-  <title><?=$_config_title?></title>
+  <title><?php echo $_config_title?></title>
 	<link rel="stylesheet" href="../../main.css" type=text/css>
 	<script src="../../inc/functions.js" type="text/javascript" language="javascript"></script>
 	<script  type="text/javascript" language="javascript">
@@ -20,14 +25,11 @@ include("../../inc/func.inc.php");
 <body onLoad="document.getElementById('term').focus()">
 <p class=titel>Kontakt Suchen</p>
 
-<form method=get action="<?=$PHP_SELF?>">
-<input type=text name=term id=term value="<?=$term?>">
+<form method=get action="<?php echo $_SERVER["PHP_SELF"] ?>">
+<input type=text name=term id=term value="<?php echo $term?>">
 <input type=submit name=search value="Suchen">
 </form>
-<?
-if(!$start){
-  $start=0;
-}
+<?php
 if($term){
 	$query=mysql_query("SELECT id,firma FROM Kontakte kon WHERE aktiv=1 AND ".formatSearchString($term,array("id","firma","firma2","text"))." ORDER BY firma LIMIT $start,$_config_entrysperpage");
 	$attr="&term=$term";
@@ -54,14 +56,14 @@ if(@mysql_num_rows($query)>0)
       $bgcolor=$_config_tbl_bgcolor2;
     }
     print "<tr onmouseover=\"setPointer(this, 'over', '#$bgcolor', '#$_config_tbl_bghover', '')\" onmouseout=\"setPointer(this, 'out', '#$bgcolor', '#$_config_tbl_bghover', '')\" onclick=\"javascript:setValue('$id');\">
-			<td valign=top bgcolor=\"#$bgcolor\"$style>$firma</td>";
+			<td valign=top bgcolor=\"#$bgcolor\">$firma</td>";
 
 		print "</tr>\n";
 	}
   print "<tr>
     <td colspan=2 align=center>";
   if($start>0){
-    print "<a href=\"$PHP_SELF?start=".($start-$_config_entrysperpage)."$attr\"><<<</a>";
+    print "<a href=\"" . $_SERVER["PHP_SELF"] . "?start=".($start-$_config_entrysperpage)."$attr\"><<<</a>";
   }
 	if($term){
 	  $query=mysql_query("SELECT count(*) FROM Kontakte WHERE aktiv=1 AND ".formatSearchString($term,array("firma","firma2")));
@@ -72,7 +74,7 @@ if(@mysql_num_rows($query)>0)
     if($start>0){
       print " | ";
     }
-    print "<a href=\"$PHP_SELF?start=".($start+$_config_entrysperpage)."$attr\">>>></a>";
+    print "<a href=\"" . $_SERVER["PHP_SELF"] . "?start=".($start+$_config_entrysperpage)."$attr\">>>></a>";
   }
   print "</td>
     </tr>

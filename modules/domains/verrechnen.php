@@ -1,4 +1,4 @@
-<?
+<?php
 include("../../inc/config.inc.php");
 include("../../inc/func.inc.php");
 include("func.inc.php");
@@ -6,13 +6,13 @@ include("func.inc.php");
 
 <html>
 <head>
-  <title><?=$_config_title?></title>
+  <title><?php echo $_config_title?></title>
 	<link rel="stylesheet" href="../../main.css" type=text/css>
   <script src="../../inc/functions.js" type="text/javascript" language="javascript"></script>
 </head>
 <body>
 <p class=titel>Domains:Verrechnen</p>
-<?
+<?php
 $query2=mysql_query("SELECT id,art,monate FROM Zahlungsarten");
 for($i=0;list($abrechnungsart_id,$abrechungsart_art,$abrechnungsart_monate)=mysql_fetch_row($query2);$i++){
 	if($order=="domain"){

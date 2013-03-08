@@ -1,21 +1,24 @@
-<? 
+<?php 
 include("../../inc/config.inc.php");
-  
 include("../../inc/func.inc.php");
+
+$term = isset($_GET["term"]) ? $_GET["term"] : NULL;
+
 ?>
 
 <html>
 <head>
-  <title><?=$_config_title?></title>
+  <title><?php echo $_config_title?></title>
 	<link rel="stylesheet" href="../../main.css" type=text/css>
 </head>
 <body>
 <p class=titel>Rechnungen:Offene Rechnungen</p>
-<form method=get action="<?=$PHP_SELF?>">
-<input type=text name=term id=term value="<?=$term?>">
+<form method=get action="<?php echo $_SERVER["PHP_SELF"] ?>">
+<input type=text name=term id=term value="<?php echo $term ?>">
 <input type=submit name=search value="Suchen">
 </form>
-<?
+<?php
+
 if($term) {
 	$query=mysql_query("SELECT rech.id,rech.fixiert,rech.kontakt,DATE_FORMAT(rech.datum,'$_config_date'),rech.betreff,rech.zahlungsfrist,rech.besrnr,rech.waehrung,sum($_config_posbetrag) FROM Rechnungen rech LEFT JOIN Rechnungen_positionen pos ON rech.id = pos.rechnung,Kontakte kon WHERE bezahlt is NULL AND ".formatSearchString($term,array("kon.firma","kon.firma2","rech.id","rech.betreff","rech.text","rech.footer"))." AND kon.id = rech.kontakt GROUP BY rech.id");
 }	else {
@@ -57,13 +60,13 @@ for($i=0;list($id,$fixiert,$kontakt,$datum,$betreff,$zahlungsfrist,$besrnr,$waeh
 	while(list($betrag_gut)=mysql_fetch_row($query2)) $betrag -= $betrag_gut;
 	
 	print "<tr>
-		<td width=180 valign=top bgcolor=\"#$bgcolor\"$red><a href=\"../kontakte/kontakt.php?id=$kontakt&back=".urlencode($REQUEST_URI)."\"$red>".getKontakt($kontakt)."</a></td>
+		<td width=180 valign=top bgcolor=\"#$bgcolor\"$red><a href=\"../kontakte/kontakt.php?id=$kontakt&back=".urlencode($_SERVER["REQUEST_URI"])."\"$red>".getKontakt($kontakt)."</a></td>
 			<td width=80 valign=top bgcolor=\"#$bgcolor\"$red>$datum</td>
 			<td valign=top bgcolor=\"#$bgcolor\"$red>".str_pad($id,4,"0",STR_PAD_LEFT)."</td>
 			<td width=\"*\" valign=top bgcolor=\"#$bgcolor\"$red>$betreff</td>
 			<td width=100 valign=top align=right bgcolor=\"#$bgcolor\"$red>".formatBetrag($betrag)." ".getWaehrungHtml($waehrung)."</td>
-			<td width=280 valign=top bgcolor=\"#$bgcolor\"><a href=\"edit.php?id=$id&back=".urlencode($REQUEST_URI)."\"$red>Edit</a> ";
-	print "<a href=\"bezahlt.php?id=$id&back=".urlencode($REQUEST_URI)."\"$red>Bezahlt</a> <a href=\"createPDF.php?id=$id\"$red>PDF</a> <a href=\"mahnen.php?id=$id&back=".urlencode($REQUEST_URI)."\"$red>Mahnen</a> <a href=\"delete.php?id=$id&back=".urlencode($REQUEST_URI)."\"$red>Löschen</a></td>";
+			<td width=280 valign=top bgcolor=\"#$bgcolor\"><a href=\"edit.php?id=$id&back=".urlencode($_SERVER["REQUEST_URI"])."\"$red>Edit</a> ";
+	print "<a href=\"bezahlt.php?id=$id&back=".urlencode($_SERVER["REQUEST_URI"])."\"$red>Bezahlt</a> <a href=\"createPDF.php?id=$id\"$red>PDF</a> <a href=\"mahnen.php?id=$id&back=".urlencode($_SERVER["REQUEST_URI"])."\"$red>Mahnen</a> <a href=\"delete.php?id=$id&back=".urlencode($_SERVER["REQUEST_URI"])."\"$red>Löschen</a></td>";
 	$query2=mysql_query("SELECT DATE_FORMAT(datum,'$_config_date') FROM Rechnungen_mahnungen WHERE rechnung='$id'");
 	$gemahnt="";
 	if(@mysql_num_rows($query2)>0)
@@ -87,7 +90,7 @@ print "<tr>
 	<td colspan=3><b>Total</b>
 	<td colspan=2 align=right><b>";
 	if($term) {
-	 $query=mysql_query("SELECT rech.id,sum($_config_posbetrag),rech.waehrung FROM Rechnungen_positionen pos, Rechnungen rech,Kontakte kon WHERE rech.id = pos.rechnung AND rech.bezahlt is NULL AND ".formatSearchString($term,array("kon.firma","kon.firma2","rech.id","rech.betreff","rech.text","rech.footer"))." AND kon.id = rech.kontakt GROUP BY rech.waehrung");
+	  $query=mysql_query("SELECT rech.id,sum($_config_posbetrag),rech.waehrung FROM Rechnungen_positionen pos, Rechnungen rech,Kontakte kon WHERE rech.id = pos.rechnung AND rech.bezahlt is NULL AND ".formatSearchString($term,array("kon.firma","kon.firma2","rech.id","rech.betreff","rech.text","rech.footer"))." AND kon.id = rech.kontakt GROUP BY rech.waehrung");
 	} else {
 		$query=mysql_query("SELECT rech.id,sum($_config_posbetrag),rech.waehrung FROM Rechnungen_positionen pos, Rechnungen rech WHERE rech.id = pos.rechnung AND rech.bezahlt is NULL GROUP BY rech.waehrung");
 	}

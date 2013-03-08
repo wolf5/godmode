@@ -1,7 +1,15 @@
-<? 
+<?php 
 include("../../inc/config.inc.php");
   
-include("../../inc/func.inc.php");
+include("../../inc/func.inc.php"); 
+
+$id = isset($_GET["id"]) ? $_GET["id"] : NULL;
+$back = isset($_GET["back"]) ? $_GET["back"] : NULL;
+$backno = isset($_GET["backno"]) ? $_GET["backno"] : NULL;
+
+$submit = isset($_POST["submit"]) ? $_POST["submit"] : NULL;
+$datum = isset($_POST["datum"]) ? $_POST["datum"] : NULL;
+
 if(!$back){
 	$back="offene.php";
 }
@@ -54,20 +62,20 @@ if($submit) {
 ?>
 <html>
 <head>
-  <title><?=$_config_title?></title>
+  <title><?php echo $_config_title?></title>
 	<link rel="stylesheet" href="../../main.css" type=text/css>
 </head>
 <body>
 <p class=titel>Rechnungen:Rechnung als Bezahlt Markieren</p>
-<?
-if($err) {
+<?php
+if(isset($error)) {
 	print "<b>Fehler:</b> $err";
 }
 $query=mysql_query("SELECT text, betrag FROM Rechnungen_positionen WHERE rechnung='$id'");
 if(@mysql_num_rows($query)<1) {
 	print "<b>Fehler</b>: Rechnung hat keine Positionen<br><br>\n";
 } else {
-	print "<form method=post value=\"$PHP_SELF?id=$id&back=".urlencode($back)."\">
+	print "<form method=post value=\"" . $_SERVER["PHP_SELF"] ."?id=$id&back=".urlencode($back)."\">
 		Datum : <input type=text name=datum value=\"".date("d.m.Y")."\"><br><br>
 		<input type=submit name=submit value=\"Ausführen\"> <input type=button value=\"Zurück\" onclick=\"javascript:location.href='$backno'\">
 		</form>";		

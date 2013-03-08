@@ -1,17 +1,17 @@
-<?
+<?php
 
 if(file_exists("$_config_root_path/modules/kontakte/func.inc.php")){
         global $_config_root_path;
         include("$_config_root_path/modules/kontakte/func.inc.php");
-}
+} 
 function getGebieteList($formname,$selected,$breite,$default) {
         global $_config_kontakte_gebiet1,$_config_kontakte_gebiet2,$_config_kontakte_gebiet3;
         eval ("\$select$selected=\"SELECTED\";");
         $select="<SELECT name=\"$formname\" style=\"width:$breite\">\n";
         if(strlen($default)>0) $select.="<option value=0>$default</option>\n";
-        if(strlen($_config_kontakte_gebiet1)>1) $select .="<option value=1 $select1>$_config_kontakte_gebiet1</option>\n";
-        if(strlen($_config_kontakte_gebiet2)>1) $select .="<option value=2 $select2>$_config_kontakte_gebiet2</option>\n";
-        if(strlen($_config_kontakte_gebiet3)>1) $select .="<option value=3 $select3>$_config_kontakte_gebiet3</option>\n";
+        if(strlen($_config_kontakte_gebiet1)>1) $select .="<option value=1>$_config_kontakte_gebiet1</option>\n";
+        if(strlen($_config_kontakte_gebiet2)>1) $select .="<option value=2>$_config_kontakte_gebiet2</option>\n";
+        if(strlen($_config_kontakte_gebiet3)>1) $select .="<option value=3>$_config_kontakte_gebiet3</option>\n";
         $select.="</SELECT>\n";
         return $select;
 }
@@ -118,28 +118,35 @@ function formatBetrag($betrag)
 }
 function isModule($module){
         global $_config_modules;
-        return in_array($module,split(",",$_config_modules));
+        return in_array($module,explode(",",$_config_modules));
 }
 function formatSearchString($term,$fields){
-        $term=split(" ",$term);
-        for($i=0;$term[$i];$i++){
+        $term=explode(" ",$term);
+        foreach($term as $val){
+                if(!isset($str))
+                {
+                  $str = Null;
+                }  
                 if($str){
                         $str .= "AND ";
                 }
-                $str.="( ";
-                for($ii=0;$fields[$ii];$ii++){
-                        if($ii>0){
+                $str.="( ";  
+                foreach($fields as $key => $field){
+                        if($key>0){
                                 $str.="OR ";
                         }
-                        if(strpos($term[$i],"*")===FALSE) {
-                                $str .= $fields[$ii]." LIKE '%".$term[$i]."%' ";
+                        if(strpos($val,"*")===FALSE) {
+                                $str .= $field." LIKE '%". $val ."%' ";
                         } else {
-                                $str .= $fields[$ii]." LIKE '".str_replace("*","%",$term[$i])."' ";
+                                $str .= $field." LIKE '".str_replace("*","%",$val)."' ";
                         }
                 }
                 $str.=") ";
         }
-        return $str;
+        if(isset($str))
+        {
+          return $str; 
+        }       
 }
 function getWaehrungsList($formname,$selected,$breite)
 {
@@ -188,7 +195,7 @@ function getFx($waehrung,$waehrung1){
       return false;
     }
                 $file=implode("\n",file("http://de.finance.yahoo.com/waehrungsrechner/convert?amt=1&from=$fx_1&to=$fx_2"));
-                $file=split("Zum Portfolio",substr($file,strpos($file,"Briefkurs",1000)));
+                $file=explode("Zum Portfolio",substr($file,strpos($file,"Briefkurs",1000)));
                 $fx = str_replace(",",".",substr($file[0], strpos($file[0],",",20) - 1 , 6));
 
                if(is_numeric($fx)){

@@ -1,4 +1,4 @@
-<?
+<?php
 if(!anredeIsPrivate($kontakt['anrede']) && $id !=0) {
 	print "<table border=0 cellpadding=0 cellspacing=0>
       <tr>

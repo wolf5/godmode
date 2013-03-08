@@ -1,4 +1,4 @@
-<?
+<?php
 function getRechnungsAdresse($kontakt) {
   global $_config_kontakte_gebiete_rechnungen;
   $query=mysql_query("SELECT kontakt$_config_kontakte_gebiete_rechnungen FROM Kontakte WHERE id='$kontakt'");

@@ -1,4 +1,4 @@
-<? 
+<?php 
 include("../../inc/config.inc.php");
 include("../../inc/db.inc.php");  
 include("../../inc/func.inc.php");
@@ -12,7 +12,7 @@ include("../../inc/func.inc.php");
 <body>
 <p class=titel>Statistiken:Excel Sheets</p>
 <br><br>
-<?
+<?php
 $query=mysql_query("select DATE_FORMAT(rech.datum,'$_config_date') as datum, rech.id,rech.kontakt,rech.betreff,sum(pos.betrag) as betrag  FROM Rechnungen rech, Rechnungen_positionen pos WHERE pos.rechnung = rech.id AND rech.bezahlt is NULL GROUP BY rech.id");
 if(mysql_num_rows($query)>0){
 	$file=fopen("excel/offene_rechnungen.csv","w");

@@ -1,4 +1,4 @@
-<? 
+<?php 
 include("../../inc/config.inc.php");
 include("../../inc/func.inc.php");
 include("func.inc.php");
@@ -20,12 +20,12 @@ if($submit) {
 
 <html>
 <head>
-  <title><?=$_config_title?></title>
+  <title><?php echo $_config_title?></title>
 	<link rel="stylesheet" href="../../main.css" type=text/css>
 </head>
-<body onLoad="<?=error($error)?>">
+<body onLoad="<?php=error($error)?>">
 <p class=titel>Rechnungen:Mahnung erstellen</p>
-<?
+<?php
 if(!$submit) {
 	$query=mysql_query("SELECT kontakt,DATE_FORMAT(datum,'$_config_date'),adresse, betreff, text,footer,waehrung,besrnr FROM Rechnungen WHERE id='$id'");
 	list($kontakt,$datum,$adresse,$betreff,$text,$footer,$waehrung,$besrnr)=mysql_fetch_row($query);

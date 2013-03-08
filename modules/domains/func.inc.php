@@ -1,4 +1,4 @@
-<?
+<?php
 function domain_bezahlt_bis($id){
 	global $_config_date;
 	$query=mysql_query("SELECT DATE_FORMAT(bezahltBis,'$_config_date') FROM Domains WHERE id='$id'");

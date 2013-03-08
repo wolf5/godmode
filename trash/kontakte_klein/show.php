@@ -1,25 +1,25 @@
-<? 
+<?php 
 include("../../inc/config.inc.php");
 include("../../inc/db.inc.php");  
 include("../../inc/func.inc.php");
 ?>
 <html>
 <head>
-  <title><?=$_config_title?></title>
+  <title><?php echo $_config_title?></title>
 	<link rel="stylesheet" href="../../main.css" type=text/css>
 	<script src="../../inc/functions.js" type="text/javascript" language="javascript"></script>
 </head>
 <body onLoad="document.getElementById('term').focus()">
 <p class=titel>Kontakte</p>
 
-<form method=get action="<?=$PHP_SELF?>">
-<input type=text name=term id=term value="<?=$term?>">
+<form method=get action="<?php=$PHP_SELF?>">
+<input type=text name=term id=term value="<?php=$term?>">
 <input type=submit name=search value="Suchen">
 </form>
-<?
-$field_names=split(",",$_config_kontakte_show_fields_name);
-$fields=split(",",$_config_kontakte_show_fields);
-$field_size=split(",",$_config_kontakte_show_field_size);
+<?php
+$field_names=explode(",",$_config_kontakte_show_fields_name);
+$fields=explode(",",$_config_kontakte_show_fields);
+$field_size=explode(",",$_config_kontakte_show_field_size);
 $qryStr="id";
 for($i=0;$fields[$i];$i++){
 	if($fields[$i]=="domains"){

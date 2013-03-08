@@ -1,4 +1,4 @@
-<?
+<?php
 print "<table width=300 cellpadding=0 cellspacing=0>
 <tr>
 	<td width=100 valign=top>Domains:</td>

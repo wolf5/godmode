@@ -1,4 +1,4 @@
-<? 
+<?php 
 include("../../inc/config.inc.php");
 include("../../inc/db.inc.php");  
 include("../../inc/func.inc.php");
@@ -18,12 +18,12 @@ if($submit){
 ?>
 <html>
 <head>
-	<title><?=$_config_title?></title>
+	<title><?php echo $_config_title?></title>
 	<link rel="stylesheet" href="../../main.css" type=text/css>
 </head>
 <body>
 <p class=titel>Kontakte:Editieren</p>
-<?
+<?php
 if($fehler)
 	print $fehler."<br>\n";
 

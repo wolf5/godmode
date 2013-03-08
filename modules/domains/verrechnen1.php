@@ -1,4 +1,4 @@
-<?
+<?php
 include("../../inc/config.inc.php");
 include("../../inc/func.inc.php");
 include("func.inc.php");
@@ -34,7 +34,7 @@ if(!($error=mysql_error())) {
 
 <html>
 <head>
-  <title><?=$_config_title?></title>
+  <title><?php echo $_config_title?></title>
 	<link rel="stylesheet" href="../../main.css" type=text/css>
   <script src="../../inc/functions.js" type="text/javascript" language="javascript"></script>
 </head>
@@ -43,7 +43,7 @@ if(!($error=mysql_error())) {
 <table width="100%" height="100%" border=0>
 <tr>
 	<td align=center valign=middle>
-	<?
+	<?php
 		if($error){
 			print "<b>Fehler:</b> $error";
 		}

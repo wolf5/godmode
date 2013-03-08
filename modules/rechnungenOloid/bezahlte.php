@@ -1,21 +1,24 @@
-<? 
-include("../../inc/config.inc.php");
-  
+<?php 
+include("../../inc/config.inc.php"); 
 include("../../inc/func.inc.php");
+
+$order = isset($_GET["order"]) ? $_GET["order"] : NULL;
+$start = isset($_GET["start"]) ? $_GET["start"] : NULL;
+$term = isset($_GET["term"]) ? $_GET["term"] : NULL;
 ?>
 
 <html>
 <head>
-  <title><?=$_config_title?></title>
+  <title><?php echo $_config_title?></title>
   <link rel="stylesheet" href="../../main.css" type=text/css>
 </head>
 <body onLoad="document.getElementById('term').focus()">
 <p class=titel>Rechnungen:Bezahlte Rechnungen</p>
-<form method=get action="<?=$PHP_SELF?>">
-<input type=text name=term id=term value="<?=$term?>">
+<form method=get action="<?php echo $_SERVER["PHP_SELF"] ?>">
+<input type=text name=term id=term value="<?php echo $term ?>">
 <input type=submit name=search value="Suchen">
 </form>
-<?
+<?php
 if($order=="datum"){
 	$order_int="ORDER BY rech.datum";
 } else if($order=="betreff") {
@@ -42,15 +45,15 @@ if(@mysql_num_rows($query)<1)
 	print "<b>Keine Bezahlte Rechnungen</b>";
 	exit;
 }
-print "<form action=\"$PHP_SELF\" method=post>
+print "<form action=\"" . $_SERVER["PHP_SELF"] . "\" method=post>
 <table width=\"95%\" border=0 cellpadding=2 cellspacing=0>
 <tr>
-	<td><a href=\"$PHP_SELF\"><b>Kontakt</b></a></td>
-	<td><a href=\"$PHP_SELF?order=datum\"><b>Datum</b></a></td>
-	<td><a href=\"$PHP_SELF?order=bezahlt\"><b>Valuta</b></a></td>
-  <td><a href=\"$PHP_SELF?order=id\"><b>Nr.</b></a></td>
-	<td><a href=\"$PHP_SELF?order=betreff\"><b>Betreff</b></a></td>
-	<td align=right><a href=\"$PHP_SELF?order=betrag\"><b>Betrag</b></a></td>
+	<td><a href=\"" . $_SERVER["PHP_SELF"] . "\"><b>Kontakt</b></a></td>
+	<td><a href=\"" . $_SERVER["PHP_SELF"] . "?order=datum\"><b>Datum</b></a></td>
+	<td><a href=\"" . $_SERVER["PHP_SELF"] . "?order=bezahlt\"><b>Valuta</b></a></td>
+  <td><a href=\"" . $_SERVER["PHP_SELF"] . "?order=id\"><b>Nr.</b></a></td>
+	<td><a href=\"" . $_SERVER["PHP_SELF"] . "?order=betreff\"><b>Betreff</b></a></td>
+	<td align=right><a href=\"" . $_SERVER["PHP_SELF"] . "?order=betrag\"><b>Betrag</b></a></td>
 	<td>&nbsp;</td>
 </tr>";
 for($i=0;list($id,$kontakt,$datum,$bezahlt,$betreff,$betrag)=mysql_fetch_row($query);$i++)
@@ -66,7 +69,7 @@ for($i=0;list($id,$kontakt,$datum,$bezahlt,$betreff,$betrag)=mysql_fetch_row($qu
 		$betrag-= mysql_result($query2,0,0);
 	}
 	print "<tr>
-			<td bgcolor=\"#$bgcolor\"><a href=\"../../modules/kontakte/kontakt.php?id=$kontakt&back=".urlencode($REQUEST_URI)."\">".getKontakt($kontakt)."</a></td>
+			<td bgcolor=\"#$bgcolor\"><a href=\"../../modules/kontakte/kontakt.php?id=$kontakt&back=".urlencode($_SERVER["REQUEST_URI"])."\">".getKontakt($kontakt)."</a></td>
 			<td bgcolor=\"#$bgcolor\">$datum</td>
 			<td bgcolor=\"#$bgcolor\"><a href=\"valuta_editieren.php?id=$id&back=".urlencode("bezahlte.php")."\">$bezahlt</a></td>
 			<td bgcolor=\"#$bgcolor\">".str_pad($id,4,"0",STR_PAD_LEFT)."</td>
@@ -80,7 +83,7 @@ print "<tr>
 	if($term) $attr="&term=$term";
 	if($order) $attr.="&order=$order";
   if($start>0){
-    print "<a href=\"$PHP_SELF?start=".($start-$_config_entrysperpage)."$attr\"><<<</a>";
+    print "<a href=\"" .$_SERVER["PHP_SELF"] . "?start=".($start-$_config_entrysperpage)."$attr\"><<<</a>";
   }
 	if($term){
 		$query=mysql_query("SELECT count(*) FROM Rechnungen rech, Kontakte kon WHERE rech.bezahlt is NOT NULL AND kon.id = rech.kontakt AND ".formatSearchString($term,array("kon.firma","kon.firma2")));

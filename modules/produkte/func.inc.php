@@ -1,4 +1,4 @@
-<?
+<?php
 function getProdukteList($formname,$selected,$breite,$text_null) {
 	global $_config_produkte_show_field_in_select;
   $query = mysql_query("SELECT id,$_config_produkte_show_field_in_box FROM Produkte");

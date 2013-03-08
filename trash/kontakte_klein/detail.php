@@ -1,4 +1,4 @@
-<? 
+<?php 
 session_start();
 include("../../inc/config.inc.php");
 include("../../inc/db.inc.php");  
@@ -11,12 +11,12 @@ if((!strstr($referer,"kontakte/detail.php") && !strstr($referer,"kontakte/edit.p
 ?>
 <html>
 <head>
-	<title><?=$_config_title?></title>
+	<title><?php echo $_config_title?></title>
 	<link rel="stylesheet" href="../../main.css" type=text/css>
 </head>
 <body>
 <p class=titel>Kontakte:Details</p>
-<?
+<?php
 $query=mysql_query("SELECT id,admin,ansprechperson,name,vorname,firma,firma2,abteilung,titel,anrede,adresse,adresse2,plz,ort,land,tel_privat,tel_gesch,tel_direkt,tel_mobile,fax,mail,mail2,text,konto,kontonr,blz,swift,iban FROM Kontakte kon WHERE kon.id='$id' AND kon.aktiv=1");
 if($query)
 {

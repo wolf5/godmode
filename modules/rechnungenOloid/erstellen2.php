@@ -1,30 +1,33 @@
-<?
-include("../../inc/config.inc.php");
-  
+<?php
+include("../../inc/config.inc.php");  
 include("../../inc/func.inc.php");
+
 session_start();
-if(!$force){
-	session_register("pos");
-	session_register("gut");
-	session_register("positionen");
-  session_register("adresse");
-  session_register("betreff");
-  session_register("datum");
-  session_register("text");
-  session_register("footer");		
-	session_register("id");
-	session_register("waehrung");
-	session_register("zahlungsfrist");
-}
+
+$id = isset($_POST["id"]) ? $_POST["id"] : NULL;
+$pos = isset($_POST["pos"]) ? $_POST["pos"] : NULL;
+$gut = isset($_POST["gut"]) ? $_POST["gut"] : NULL;
+$positionen = isset($_POST["positionen"]) ? $_POST["positionen"] : NULL;
+$adresse = isset($_POST["adresse"]) ? $_POST["adresse"] : NULL;
+$betreff = isset($_POST["betreff"]) ? $_POST["betreff"] : NULL;
+$datum = isset($_POST["datum"]) ? $_POST["datum"] : NULL;
+$text = isset($_POST["text"]) ? $_POST["text"] : NULL;
+$footer = isset($_POST["footer"]) ? $_POST["footer"] : NULL;
+$waehrung = isset($_POST["waehrung"]) ? $_POST["waehrung"] : NULL;
+$zahlungsfrist = isset($_POST["zahlungsfrist"]) ? $_POST["zahlungsfrist"] : NULL;
+$adresse = isset($_POST["adresse"]) ? $_POST["adresse"] : NULL;
+$besrnr = isset($_POST["besrnr"]) ? $_POST["besrnr"] : NULL;
+
 ?>
 <html>
 <head>
-	<title><?=$_config_title?></title>
+	<title><?php echo $_config_title?></title>
   <link rel="stylesheet" href="../../main.css" type=text/css>
 </head>
 <body>
 <p class=titel>Rechnungen:Rechnungen erstellen</p>
-<?
+<?php
+
 //Prüfen ob diese Rechnung schon mal erstellt wurde
 $query=mysql_query("SELECT id FROM Rechnungen WHERE kontakt='$id' AND betreff='$betreff' AND datum = NOW()");
 if(@mysql_num_rows($query)==0 || $force==1) {
@@ -56,27 +59,18 @@ if(@mysql_num_rows($query)==0 || $force==1) {
 	} else {
 		$error=mysql_error();	
 	}
-	if($error){
+	if(isset($error)){
       print "<b>Fehler:</b> $error";
 	} else {
-		session_unregister("pos");
-		session_unregister("gut");
-		session_unregister("adresse");
-		session_unregister("betreff");
-		session_unregister("datum");
-		session_unregister("text");
-		session_unregister("footer");
-		session_unregister("id");
-		session_unregister("waehrung");
-		
+				
 		print "<p>Die Rechnung wurde erfolgreich gespeichert.</p>
-		<p>Klicken Sie <a href=\"createPDF.php?id=$last_id\" style=\"text-decoration:underline\">hier</a> für eine Rechnung im PDF-Format und <a href=\"positionen.php\" style=\"text-decoration:underline\">hier</a> um zurückzukehren.";
+		<p>Klicken Sie <a href=\"createPDF.php?id=$last_id\" style=\"text-decoration:underline\">hier</a> für eine Rechnung im PDF-Format und <a href=\"offene.php\" style=\"text-decoration:underline\">hier</a> um zu den Offenen Rechnungen zu gelangen.";
 	}
 } else {
 	print "<b>Achtung!</b>
 eine Rechnung an diesen Kunden mit diesem Betreff wurde heute schon einmal ausgelöst!<br>
 Um Rechnungen ein zweites mal auszudrucken, verwenden Sie bitte den Menupunkt <a href=\"rechnungen_offene.php\">Offene Rechnungen</a>.<br><br>
-Um die Rechnung ein zweites mal auszulösen, klicken Sie <a href=\"$PHP_SELF?force=1\" style=\"text-decoration:underline\">hier</a>."; 	
+Um die Rechnung ein zweites mal auszulösen, klicken Sie <a href=\"" . $_SERVER_["PHP_SELF"] . "?force=1\" style=\"text-decoration:underline\">hier</a>."; 	
 }
 
 ?>

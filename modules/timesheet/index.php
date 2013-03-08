@@ -16,7 +16,7 @@ include("./inc/func.inc.php");
 <div id="stopwatch"></div>
 <fieldset>
 <legend>Kunden</legend>
-<?
+<?php
 	showButtons();
 ?>
 </fieldset>
@@ -25,7 +25,7 @@ include("./inc/func.inc.php");
 <legend>Liste von <?php echo date("F j, Y")?></legend>
 <div id="tableDiv">
 	<table id="timesheet" width="100%" cellpadding="3" cellspacing="0">
-	<? 
+	<?php 
 		updateTable(true);
 	?>
 	</table>

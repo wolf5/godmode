@@ -1,26 +1,30 @@
-<?
-include("../../inc/config.inc.php");
- 
-include("../../inc/func.inc.php");	
+<?php
+include("../../inc/config.inc.php"); 
+include("../../inc/func.inc.php");
+
+$order = isset($_GET["order"]) ? $_GET["order"] : NULL;
+$start = isset($_GET["start"]) ? $_GET["start"] : NULL;
+$term = isset($_GET["term"]) ? $_GET["term"] : NULL;	
 ?>
 <html>
 <head>
-  <title><?=$_config_title?></title>
+  <title><?php echo $_config_title?></title>
 	<link rel="stylesheet" href="../../main.css" type=text/css>
 	<script src="../../inc/functions.js" type="text/javascript" language="javascript"></script>
 </head>
 <body onLoad="document.getElementById('term').focus()">
 <p class=titel>Produkte</p>
-<form method=get action="<?=$PHP_SELF?>">
-<input type=text name=term id=term value="<?=$term?>">
+<form method=get action="<?php echo $_SERVER["PHP_SELF"] ?>">
+<input type=text name=term id=term value="<?php echo $term ?>">
 <input type=submit name=search value="Suchen">
 </form>
-<?
+<?php
 if(!$order)
 	$order="nr_int";
 if(!$start){
 	$start=0;
 }
+
 if($term){
 	$query=mysql_query("SELECT id,nr_int,nr_ext,gruppe,text1,preis1 FROM Produkte WHERE ".formatSearchString($term,array("nr_int","nr_ext","gruppe","text1","text2","preis1","preis2","preis3","preis4","rabattstufe","warenbestand"))."ORDER BY $order LIMIT $start,$_config_entrysperpage");
 } else {
@@ -31,11 +35,11 @@ if(@mysql_num_rows($query)>0)
 {
 	print "<table border=0 cellpadding=3 cellspacing=0 width=\"95%\">
 		<tr>
-			<td><b><a href=\"$PHP_SELF?oder=nr_int\">Int. Prod. Nr.</a></b></td>
-			<td><b><a href=\"$PHP_SELF?order=nr_ext\">Ext. Prod. Nr.</a></b></td>
-			<td><b><a href=\"$PHP_SELF?order=gruppe\">Prod. Gruppe</a></b></td>
-			<td><b><a href=\"$PHP_SELF?order=text1\">$_config_produkte_text1_name</a></b></td>
-			<td><b><a href=\"$PHP_SELF?order=preis1\">$_config_produkte_preis1_name</a></b></td>
+			<td><b><a href=\"". $_SERVER["PHP_SELF"] . "?oder=nr_int\">Int. Prod. Nr.</a></b></td>
+			<td><b><a href=\"". $_SERVER["PHP_SELF"] . "?order=nr_ext\">Ext. Prod. Nr.</a></b></td>
+			<td><b><a href=\"". $_SERVER["PHP_SELF"] . "?order=gruppe\">Prod. Gruppe</a></b></td>
+			<td><b><a href=\"". $_SERVER["PHP_SELF"] . "?order=text1\">$_config_produkte_text1_name</a></b></td>
+			<td><b><a href=\"". $_SERVER["PHP_SELF"] . "?order=preis1\">$_config_produkte_preis1_name</a></b></td>
 		</tr>\n";
 	for($i=0;list($id,$nr_int,$nr_ext,$gruppe,$text1,$preis1)=mysql_fetch_row($query);$i++)
 	{

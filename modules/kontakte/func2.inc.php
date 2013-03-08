@@ -1,14 +1,15 @@
-<?
+<?php
 function saveKontakte() {
   global $kontaktpersonen;
 	global $kontakt;
   global $HTTP_POST_VARS;
 	global $key;
-	
-
-	
-	$key = $_REQUEST["key"];
-	
+  
+  $kontaktpersonen = isset($_SESSION['kontaktpersonen']) ? $_SESSION['kontaktpersonen'] : NULL;
+  $kontakt = isset($_SESSION['kontakt']) ? $_SESSION['kontakt'] : NULL;
+     
+        $key = $_REQUEST["key"];
+     
         $test="<br>1) key = ".$key;
       	
 	      //if key is -1 it is a new adress - then apend ist at the end

@@ -1,7 +1,21 @@
-<? 
+<?php 
 include("../../inc/config.inc.php");
 include("../../inc/func.inc.php");
 include("func.inc.php");
+
+$id = isset($_GET["id"]) ? $_GET["id"] : NULL;
+
+$submit = isset($_POST["submit"]) ? $_POST["submit"] : NULL;
+$newpos_text = isset($_POST["newpos_text"]) ? $_POST["newpos_text"] : NULL;
+$newpos_text1 = isset($_POST["newpos_text1"]) ? $_POST["newpos_text1"] : NULL;
+$newpos_betrag = isset($_POST["newpos_betrag"]) ? $_POST["newpos_betrag"] : NULL;
+
+$adresse = isset($_POST["adresse"]) ? $_POST["adresse"] : NULL;
+$betreff = isset($_POST["betreff"]) ? $_POST["betreff"] : NULL;
+$datum = isset($_POST["datum"]) ? $_POST["datum"] : NULL;
+$text = isset($_POST["text"]) ? $_POST["text"] : NULL;
+$footer = isset($_POST["footer"]) ? $_POST["footer"] : NULL;
+$zahlungsfrist = isset($_POST["zahlungsfrist"]) ? $_POST["zahlungsfrist"] : NULL;
 
 if($submit) {
 	$query=mysql_query("INSERT INTO Rechnungen_mahnungen(rechnung,datum,adresse,betreff,text,footer,zahlungsfrist,besrnr) VALUES('$id','".date_CH_to_EN($datum)."','$adresse','$betreff','$text','$footer','$zahlungsfrist','$besrnr')");
@@ -20,23 +34,23 @@ if($submit) {
 
 <html>
 <head>
-  <title><?=$_config_title?></title>
+  <title><?php echo $_config_title?></title>
 	<link rel="stylesheet" href="../../main.css" type=text/css>
 </head>
-<body <?=error($error)?>>
+<body>
 <p class=titel>Rechnungen:Mahnung erstellen</p>
-<?
+<?php
 if(!$submit) {
 	$query=mysql_query("SELECT kontakt,DATE_FORMAT(datum,'$_config_date'),adresse, betreff, text,footer,waehrung,besrnr FROM Rechnungen WHERE id='$id'");
 	list($kontakt,$datum,$adresse,$betreff,$text,$footer,$waehrung,$besrnr)=mysql_fetch_row($query);
 	$betreff=str_replace("%DATUM%",$datum,$betreff);
 	$text=str_replace("%DATUM%",$datum,$text);
 	$footer=str_replace("%DATUM%",$datum,$footer);
-	$_config_rechnung_mahnung_subject=str_replace("%DATUM%",$datum,$_config_rechnung_mahnung_subject);
+	$_config_rechnung_mahnung_subject= isset($_config_rechnung_mahnung_subject) ? str_replace("%DATUM%",$datum,$_config_rechnung_mahnung_subject) : NULL;
 	$betreff=$_config_rechnung_mahnung_subject;
-	$zahlungsfrist=$_config_mahnung_rechnung_zahlungsfrist;
+	$zahlungsfrist= isset($_config_mahnung_rechnung_zahlungsfrist) ? $_config_mahnung_rechnung_zahlungsfrist : NULL;
 }
-print "<form method=post action=\"$PHP_SELF?id=$id\">
+print "<form method=post action=\"" . $_SERVER["PHP_SELF"] . "?id=$id\">
 	<table width=100% border=0>
 	<tr>
 		<td height=100 valign=top>
@@ -153,14 +167,14 @@ Mahnung erstellen in: ".getWaehrungHtml($waehrung)."</p>
 <tr>
 	<td><br><br>
     <SELECT onChange=\"document.getElementById('footer').value=this.value\" style=\"width:400px;background-color:#$_config_tbl_bgcolor1;\">
-			<option value=\"".str_replace("%USER%",getEmp(getHttpUserId()),$footer)."\">Rechnungstext</option>
-      <option value=\"".str_replace("%USER%",getEmp(getHttpUserId()),$_config_rechnung_mahnung_text2_1)."\">".get1Line($_config_mahnung_rechnung_text2_1)."</option>
-      <option value=\"".str_replace("%USER%",getEmp(getHttpUserId()),$_config_rechnung_mahnung_text2_2)."\">".get1Line($_config_mahnung_rechnung_text2_2)."</option>
-      <option value=\"".str_replace("%USER%",getEmp(getHttpUserId()),$_config_rechnung_mahnung_text2_3)."\">".get1Line($_config_mahnung_rechnung_text2_3)."</option>
-      <option value=\"".str_replace("%USER%",getEmp(getHttpUserId()),$_config_rechnung_mahnung_text2_4)."\">".get1Line($_config_mahnung_rechnung_text2_4)."</option>
-      <option value=\"".str_replace("%USER%",getEmp(getHttpUserId()),$_config_rechnung_mahnung_text2_5)."\">".get1Line($_config_mahnung_rechnung_text2_5)."</option>
-    </SELECT><br>
-
+      <option value=\"".str_replace("%USER%",getEmp(getHttpUserId()),$footer)."\">Rechnungstext</option>";
+      print	isset($_config_rechnung_mahnung_text2_1) ? "<option value=\"".str_replace("%USER%",getEmp(getHttpUserId()),$_config_rechnung_mahnung_text2_1)."\">".get1Line($_config_mahnung_rechnung_text2_1)."</option>" : NULL;
+      print isset($_config_rechnung_mahnung_text2_2) ? "<option value=\"".str_replace("%USER%",getEmp(getHttpUserId()),$_config_rechnung_mahnung_text2_2)."\">".get1Line($_config_mahnung_rechnung_text2_2)."</option>" : NULL;
+      print isset($_config_rechnung_mahnung_text2_3) ? "<option value=\"".str_replace("%USER%",getEmp(getHttpUserId()),$_config_rechnung_mahnung_text2_3)."\">".get1Line($_config_mahnung_rechnung_text2_3)."</option>" : NULL;
+      print isset($_config_rechnung_mahnung_text2_4) ? "<option value=\"".str_replace("%USER%",getEmp(getHttpUserId()),$_config_rechnung_mahnung_text2_4)."\">".get1Line($_config_mahnung_rechnung_text2_4)."</option>" : NULL;
+      print isset($_config_rechnung_mahnung_text2_5) ? "<option value=\"".str_replace("%USER%",getEmp(getHttpUserId()),$_config_rechnung_mahnung_text2_5)."\">".get1Line($_config_mahnung_rechnung_text2_5)."</option>" : NULL;
+print "</SELECT>
+    <br>
 		<textarea name=footer id=footer style=\"width:400px;height:70px;\">".str_replace("%USER%",getEmp(getHttpUserId()),$footer)."</textarea> 
 	</td>
 </tr>

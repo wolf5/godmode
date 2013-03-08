@@ -1,4 +1,4 @@
-<? 
+<?php 
 include("../../inc/config.inc.php");
 include("../../inc/func.inc.php");
 include("func.inc.php");
@@ -15,8 +15,8 @@ list($titel,$sql,$ueberschriften,$filename,$datumsfeld,$total)=mysql_fetch_row($
 	</style>
 </head>
 <body>
-<p class=titel>Statistiken:<?=$titel?></p>
-<?
+<p class=titel>Statistiken:<?php=$titel?></p>
+<?php
 print "<a href=\"csv.php?id=$id&start=$start&end=$end&sort=$sort&order=$order\">CSV</a>
 <br><br>";
 
@@ -62,7 +62,7 @@ if(mysql_num_rows($query)>0){
 	print "<table border=0 cellspacing=0 cellpadding=2 class=gitternetz>
 	<tr>\n";
 	$i=0;
-	$ueberschriften=split(",",$ueberschriften);
+	$ueberschriften=explode(",",$ueberschriften);
 	foreach($ueberschriften as $ueberschrift) {
 		$ueberschrift = str_replace(">","",$ueberschrift);
 		$ueberschrift = str_replace("<","",$ueberschrift);
@@ -87,7 +87,7 @@ if(mysql_num_rows($query)>0){
 	}
 	
 	if(strlen($total)>0) {
-		$total = split(",",$total);
+		$total = explode(",",$total);
 		print "<tr>\n";
 		for($i=0;$i<mysql_num_fields($query);$i++) {
 			if(in_array(mysql_field_name($query,$i),$total)) {

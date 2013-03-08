@@ -1,4 +1,4 @@
-<? 
+<?php 
 /*include("../../inc/config.inc.php");
 include("../../inc/func.inc.php");*/
 /*include("../../inc/config.inc.php");*/
@@ -17,7 +17,7 @@ include("inc/func.inc.php");
 <br><br>
 
 <table>
-<?
+<?php
 $query=mysql_query("select ts.Kunde, con.id, firma, firma2 from Kontakte as con LEFT JOIN  Timesheet_Kontakte as ts ON ( con.id = ts.Kunde) where con.aktiv = 1");
 echo mysql_error();
 while ($customer = mysql_fetch_array($query)){

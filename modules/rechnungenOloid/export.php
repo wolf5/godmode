@@ -1,6 +1,10 @@
-<? 
+<?php 
 include("../../inc/config.inc.php");
 include("../../inc/func.inc.php");
+
+$back = isset($_GET["back"]) ? $_GET["back"] : NULL;
+$backno = isset($_GET["backno"]) ? $_GET["backno"] : NULL;
+$submit = isset($_POST["submit"]) ? $_POST["submit"] : NULL;
 
 if(!$back){
 	$back="offene.php";
@@ -29,7 +33,7 @@ function createKonto($nr,$kontakt,$typ) {
 if($submit) {
 	$query=mysql_query("SELECT rech.id,rech.datum,sum((pos.betrag*pos.anzahl)*pos.fx),mwst,rech.kontakt,rech.waehrung,rech.fx,kon.firma FROM Rechnungen rech,Rechnungen_positionen pos,Kontakte kon WHERE kon.id=rech.kontakt AND rech.id = pos.rechnung AND rech.fixiert=0 AND rech.bezahlt IS NULL GROUP BY rech.id");
 	if(mysql_num_rows($query)>0) {
-		while((list($id,$datum,$betrag,$mwst,$kontakt,$waehrung,$fx,$firma)=mysql_fetch_row($query)) && !$error) {
+		while((list($id,$datum,$betrag,$mwst,$kontakt,$waehrung,$fx,$firma)=mysql_fetch_row($query)) && !isset($error)) {
 			mysql_select_db($_config_mysql_db);
 			$kt_soll=str_replace("%KONTAKT%",$kontakt,$_config_export_rechnungen_soll);
 			$kt_haben=str_replace("%KONTAKT%",$kontakt,$_config_export_rechnungen_haben);
@@ -60,7 +64,7 @@ if($submit) {
 			$error=mysql_error();
 			mysql_select_db($_config_mysql_db);
 		}
-		if(!$error) {
+		if(!isset($error)) {
 			header("Location: $back");
 		}	
 	}
@@ -68,14 +72,14 @@ if($submit) {
 ?>
 <html>
 <head>
-  <title><?=$_config_title?></title>
+  <title><?php echo $_config_title?></title>
 	<link rel="stylesheet" href="../../main.css" type=text/css>
 </head>
 <body>
 <p class=titel>Rechnungen:Rechnungen Exportieren</p>
-<?
-if($err) {
-	print "<b>Fehler:</b> $err";
+<?php
+if(isset($error)) {
+	print "<b>Fehler:</b>" . $error . "<br>";
 }
 $query=mysql_query("SELECT rech.id, rech.text,sum($_config_posbetrag),rech.kontakt FROM Rechnungen rech,Rechnungen_positionen pos WHERE rech.id = pos.rechnung AND rech.fixiert=0 AND rech.bezahlt IS NULL GROUP BY rech.id");
 if(mysql_error()) {
@@ -92,13 +96,16 @@ if(mysql_error()) {
 		</tr>";
 	while(list($id,$text,$betrag,$kontakt)=mysql_fetch_row($query)) {
 		print "<tr>
-			<td>".getKontakt($kontakt)."</td>
-			<td>$betreff</td>
-			<td>".formatBetrag($betrag)."</td>
+			<td>".getKontakt($kontakt)."</td>";
+		
+    if(isset($betreff))
+    	print "<td>" . $betreff . "</td>";
+		
+    print	"<td>".formatBetrag($betrag)."</td>
 		</tr>";
 	}
 	print "</table>
-		<form method=post value=\"$PHP_SELF?id=$id&back=".urlencode($back)."\">
+		<form method=post value=\"" . $_SERVER["PHP_SELF"] . "?id=$id&back=".urlencode($back)."\">
 		<input type=submit name=submit value=\"Ausführen\"> <input type=button value=\"Zurück\" onclick=\"javascript:location.href='$backno'\">
 		</form>";		
 }

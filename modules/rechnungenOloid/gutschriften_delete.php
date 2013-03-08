@@ -1,7 +1,12 @@
-<? 
+<?php 
 include("../../inc/config.inc.php");
-  
 include("../../inc/func.inc.php");
+
+$back = isset($_GET["back"]) ? $_GET["back"] : NULL;
+$backno = isset($_GET["backno"]) ? $_GET["backno"] : NULL;
+$del = isset($_GET["del"]) ? $_GET["del"] : NULL;
+$id = isset($_GET["id"]) ? $_GET["id"] : NULL;
+
 if(!$back){
 	$back="gutschriften.php";
 }
@@ -20,15 +25,15 @@ if($del)
 ?>
 <html>
 <head>
-	<title><?=$_config_title?></title>
+	<title><?php echo $_config_title ?></title>
 	<link rel="stylesheet" href="../../main.css" type=text/css>
 </head>
 <body>
 <p class=titel>Rechnungen:Gutschrift Löschen</p>
-<?
+<?php
 	$query=mysql_query("SELECT kontakt, betrag, text FROM Rechnungen_gutschriften WHERE id='$id'");
 	list($kontakt,$betrag,$text)=mysql_fetch_row($query);
-	print "<p>Möchten Sie die Gutschrift <b>$text</b> für <b>".getKontakt($kontakt)."</b> über ".formatBetrag($betrag)." wirklich Löschen?</p><p>[ <a href=\"$PHP_SELF?del=$id&back=".urlencode($back)."\">Ja</a> ] [ <a href=\"".urldecode($backno)."\">Nein</a> ]</p>";
+	print "<p>Möchten Sie die Gutschrift <b>$text</b> für <b>".getKontakt($kontakt)."</b> über ".formatBetrag($betrag)." wirklich Löschen?</p><p>[ <a href=\"" . $_SERVER["PHP_SELF"] . "?del=$id&back=".urlencode($back)."\">Ja</a> ] [ <a href=\"".urldecode($backno)."\">Nein</a> ]</p>";
 ?>
 </body>
 </html>

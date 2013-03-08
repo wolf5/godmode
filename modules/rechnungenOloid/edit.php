@@ -1,7 +1,20 @@
-<? 
+<?php 
 include("../../inc/config.inc.php");
   
 include("../../inc/func.inc.php");
+
+$id = isset($_GET["id"]) ? $_GET["id"] : NULL;
+$back = isset($_GET["back"]) ? $_GET["back"] : NULL;
+
+$submit = isset($_POST["submit"]) ? $_POST["submit"] : NULL;
+$datum = isset($_POST["datum"]) ? $_POST["datum"] : NULL;
+$adresse = isset($_POST["adresse"]) ? $_POST["adresse"] : NULL;
+$betreff = isset($_POST["betreff"]) ? $_POST["betreff"] : NULL;
+$text = isset($_POST["text"]) ? $_POST["text"] : NULL;
+$footer = isset($_POST["footer"]) ? $_POST["footer"] : NULL;
+
+$_config_rechnung_head = isset($_config_rechnung_head) ? $_config_rechnung_head : Null;
+
 if(!$back) {
 	$back="offene.php";
 }
@@ -17,13 +30,13 @@ if($submit) {
 
 <html>
 <head>
-  <title><?=$_config_title?></title>
+  <title><?php echo $_config_title?></title>
 	<link rel="stylesheet" href="../../main.css" type=text/css>
 </head>
 <body>
 <p class=titel>Rechnungen:Rechnungen editieren</p>
-<?
-if($err){
+<?php
+if(isset($err)){
 	print "<b>Fehler:</b> $err<br><br>";
 }
 $query = mysql_query("SELECT DATE_FORMAT(datum,'$_config_date'),adresse,betreff,text,footer,DATE_FORMAT(bezahlt,'$_config_date') FROM Rechnungen WHERE id='$id'");
@@ -31,12 +44,16 @@ list($datum,$adresse,$betreff,$text,$footer,$bezahlt)=mysql_fetch_row($query);
 if($bezahlt){ 
 	print "Diese Rechnung wurde am $bezahlt bezahlt.";
 }
-print "<form method=post action=\"$PHP_SELF?id=$id&back=".urlencode($back)."\">
-	<table width=100% border=0>
-	<tr>
-		<td height=100 valign=top>".nl2br($_config_rechnung_head)."</td>
-	</tr>
-	<tr>
+print "<form method=post action=\"" . $_SERVER["PHP_SELF"] . "?id=$id&back=".urlencode($back)."\">
+	<table width=100% border=0>";
+  
+if(isset($_config_rechnung_head))
+{
+  print"<tr>
+          <td height=100 valign=top>".nl2br($_config_rechnung_head)."</td>
+  	    </tr>";
+} 
+print"<tr>
 		<td height=100 valign=top>
 			<textarea name=adresse style=\"width:400px;height:100px;\">$adresse</textarea>
 		</td>
@@ -60,6 +77,8 @@ print "<form method=post action=\"$PHP_SELF?id=$id&back=".urlencode($back)."\">
 				<td align=right><b>Betrag</b></td>
 			</tr>";
 $query=mysql_query("SELECT id,text,text1,betrag FROM Rechnungen_positionen WHERE rechnung='$id'");
+
+$total = 0;
 for($i=0;(list($pos_id,$pos_text,$pos_text1,$betrag)=mysql_fetch_row($query));$i++){
 	if(($i%2)==0){
 		$bgcolor=$_config_tbl_bgcolor1;
@@ -78,6 +97,8 @@ print "</table>\n";
 
 //Gutschriften
 $query2=mysql_query("SELECT id,betrag,text FROM Rechnungen_gutschriften WHERE bezahlt is NULL AND bezahlt='$id'");
+
+$total = 0;
 if(@mysql_num_rows($query2)>0)
 {
 	print "<br><b>Gutschriften</b><br><table border=0 width=100% cellpadding=0 cellspacing=0>
@@ -114,11 +135,16 @@ print "</td>
 </tr>
 </table>
 </td>
-</tr>
-<tr>
-	<td><br>$_config_rechnung_text_zusatz</td>
-</tr>
-<tr>
+</tr>";
+
+if(isset($_config_rechnung_text_zusatz))
+{
+print "<tr>
+	       <td><br>$_config_rechnung_text_zusatz</td>
+      </tr>";
+}
+
+print "<tr>
 	<td><br><br>
 		<textarea name=footer style=\"width:400px;height:70px;\">$footer</textarea> 
 	</td>

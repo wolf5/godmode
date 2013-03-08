@@ -1,4 +1,4 @@
-<? 
+<?php 
 include("../../inc/config.inc.php");
   
 include("../../inc/func.inc.php");
@@ -6,16 +6,16 @@ include("../../inc/func.inc.php");
 
 <html>
 <head>
-  <title><?=$_config_title?></title>
+  <title><?php echo $_config_title?></title>
 	<link rel="stylesheet" href="../../main.css" type=text/css>
 </head>
 <body>
 <p class=titel>Rechnungen:Offene Rechnungen</p>
-<form method=get action="<?=$PHP_SELF?>">
-<input type=text name=term id=term value="<?=$term?>">
+<form method=get action="<?php=$PHP_SELF?>">
+<input type=text name=term id=term value="<?php=$term?>">
 <input type=submit name=search value="Suchen">
 </form>
-<?
+<?php
 if($term) {
 	$query=mysql_query("SELECT rech.id,rech.fixiert,rech.kontakt,DATE_FORMAT(rech.datum,'$_config_date'),rech.betreff,rech.zahlungsfrist,rech.besrnr,rech.waehrung,sum($_config_posbetrag) FROM Rechnungen rech LEFT JOIN Rechnungen_positionen pos ON rech.id = pos.rechnung,Kontakte kon WHERE bezahlt is NULL AND ".formatSearchString($term,array("kon.firma","kon.firma2","rech.id","rech.betreff","rech.text","rech.footer"))." AND kon.id = rech.kontakt GROUP BY rech.id");
 }	else {

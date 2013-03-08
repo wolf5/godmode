@@ -1,4 +1,4 @@
-<? 
+<?php 
 include("../../inc/config.inc.php");
 include("../../inc/func.inc.php");
 ?>
@@ -10,7 +10,7 @@ include("../../inc/func.inc.php");
 <body>
 <p class=titel>Statistiken:Übersicht</p>
 <br><br>
-<?
+<?php
 $query=mysql_query("SELECT id,titel FROM Statistiken WHERE aktiv=1 ORDER BY titel");
 while(list($id,$titel)=mysql_fetch_row($query)){
 	print "<a href=\"statistik.php?id=$id\">$titel</a> (<a href=\"csv.php?id=$id\">CSV</a>)<br>";

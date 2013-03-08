@@ -1,32 +1,34 @@
-<? 
+<?php 
 include("../../inc/config.inc.php");
 include("../../inc/func.inc.php");
 
-if($submit) {
+
+if(isset($_POST["submit"])) {
 	$query=mysql_query("SELECT `key`,`value` FROM `Konfiguration`");
 	while(list($key,$value)=mysql_fetch_row($query)) {
-		if(isset($$key) && $value != $$key) {
-			$query2=mysql_query("UPDATE `Konfiguration` SET `value` = '".$$key."' WHERE `key` = '$key'");
-			if(($error=mysql_error())) {
+		if(isset($_POST[$key]) && $value != $_POST[$key]) {
+			$query2=mysql_query("UPDATE `Konfiguration` SET `value` = '". $_POST[$key] ."' WHERE `key` = '$key'");
+      if(($error=mysql_error())) {
 				break;
 			}
 		}
 	}
-}
+}   
 ?>
 <html>
 <head>
-	<title><?=$_config_title?></title>
+	<title><?php echo $_config_title?></title>
 	<link rel="stylesheet" href="../../main.css" type=text/css>
 </head>
-<body <?=error($error);?>>
+<body>
 <p class=titel>Konfiguration</p>
-<form method=post action="<?=$PHP_SELF?>?submit=1">
+<form method=post action="<?php echo $_SERVER["PHP_SELF"] ?>">
+<input type=hidden name=submit value=1>
 <table border=0>
-<?
+<?php
 $query=mysql_query("SELECT `context`,`key`,`value`,`text`,`inputtype` FROM `Konfiguration` ORDER BY `context`,`text`");
 while((list($context,$key,$value,$text,$inputtype)=mysql_fetch_row($query))) {
-	if(!$old_context || $old_context!=$context) {
+	if(!isset($old_context) || $old_context!=$context) {
 		$old_context=$context;
 		print "<tr>
 			<td colspan=2>&nbsp;</td>

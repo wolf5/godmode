@@ -59,7 +59,7 @@ $pdf->SetFont("Times","",24);
 $pdf->Text(40,15,$_config_rechnung_head_titel_logo);
 $pdf->SetFont("Arial","",10);
 $pdf->SetFont("Arial","B",10);
-$txt=split("\n",$_config_rechnung_head_titel_adresse);
+$txt=explode("\n",$_config_rechnung_head_titel_adresse);
 for($i=0,$height=19;$txt[$i];$i++,$height+=4){
 	if($i==1){
 		$pdf->SetFont("Arial","",10);

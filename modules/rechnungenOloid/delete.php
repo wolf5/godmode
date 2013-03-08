@@ -1,8 +1,15 @@
-<? 
+<?php 
 include("../../inc/config.inc.php");
   
 include("../../inc/func.inc.php");
 include("func.inc.php");
+
+$id = isset($_GET["id"]) ? $_GET["id"] : NULL;
+$del = isset($_POST["del"]) ? $_POST["del"] : NULL;
+$rem_pos = isset($_POST["rem_pos"]) ? $_POST["rem_pos"] : NULL;
+$back = isset($_GET["back"]) ? $_GET["back"] : NULL;
+$backno = isset($_GET["backno"]) ? $_GET["backno"] : NULL;
+
 if(!$back) {
 	$back="offene.php";
 }
@@ -27,13 +34,13 @@ if($del) {
 ?>
 <html>
 <head>
-	<title><?=$_config_title?></title>
+	<title><?php echo $_config_title?></title>
 	<link rel="stylesheet" href="../../main.css" type=text/css>
 </head>
 <body>
 <p class=titel>Rechnungen:Rechnung Löschen</p>
-<?
-	if($error){
+<?php
+	if(isset($error)){
 		print "<b>Fehler:</b> $error<br><br>";
 	}
 	$query=mysql_query("SELECT kontakt,DATE_FORMAT(datum,'$_config_date'),betreff,fixiert FROM Rechnungen WHERE id='$id'");
@@ -43,7 +50,7 @@ if($del) {
 		tfahren?<br>";
 	else
 	print "Möchten Sie die Rechnung an <b>".getKontakt($kontakt)."</b> vom <b>$datum</b> mit dem Titel <b>$text</b> wirklich Löschen?<br>";
-	print "<form method=post action=\"$PHP_SELF\" name=delform>
+	print "<form method=post action=\"" . $_SERVER["PHP_SELF"] ."\" name=delform>
 	<input type=hidden name=del value=$id>
 	<input type=hidden name=back value=\"$back\">
 	<input type=checkbox name=rem_pos value=true checked> Positionen Löschen<br><br> 

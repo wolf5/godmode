@@ -1,4 +1,4 @@
-<? 
+<?php 
 include("../../inc/config.inc.php");
   
 include("../../inc/func.inc.php");
@@ -29,19 +29,19 @@ include("../../inc/func.inc.php");
 <table border=0>
 <tr>
 	<td width=250>Gesamteinnahmen Domains pro Jahr</td>
-	<td align=right><? print formatBetrag($gesamteinnahmen); ?></td>
+	<td align=right><?php print formatBetrag($gesamteinnahmen); ?></td>
 </tr>
 <tr>
 	<td width=250>Einnahmen - Hostingkosten</td>
-	<td align=right><?=formatBetrag($gesamteinnahmen-4519.2)?></td>
+	<td align=right><?php=formatBetrag($gesamteinnahmen-4519.2)?></td>
 </tr>
 <tr>
 	<td width=250>Verrechnete Beträge</td>
-	<td align=right><? print formatBetrag($verrechneteBetraege); ?>	</td>
+	<td align=right><?php print formatBetrag($verrechneteBetraege); ?>	</td>
 </tr>
 <tr>
 	<td width=250>Bezahlte Beträge</td>
-	<td align=right><? print formatBetrag($bisherigeEinnahmen); ?></td>
+	<td align=right><?php print formatBetrag($bisherigeEinnahmen); ?></td>
 </tr>
 </table>
 </body>

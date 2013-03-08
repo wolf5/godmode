@@ -1,4 +1,4 @@
-<?
+<?php
 session_start();
 include("../../inc/config.inc.php");
 include("../../inc/func.inc.php");
@@ -6,10 +6,13 @@ include("func2.inc.php");
 
 $HTTP_POST_VARS   = !empty($HTTP_POST_VARS)   ? $HTTP_POST_VARS   : $_POST;
 
+$id = isset($_GET['id']) ? $_GET['id'] : NULL;
 
 echo saveKontakte();
 
-$kontaktpersonen = $_SESSION["kontaktpersonen"];
+$submit_form = isset($_POST['submit_form']) ? $_POST['submit_form'] : NULL;
+$kontakt = isset($_SESSION['kontakt']) ? $_SESSION['kontakt'] : NULL;
+$kontaktpersonen = isset($_SESSION['kontaktpersonen']) ? $_SESSION['kontaktpersonen'] : NULL;
 
 
 
@@ -18,19 +21,18 @@ $kontaktpersonen = $_SESSION["kontaktpersonen"];
 ?>
 <html>
 <head>
-	<title><?=$_config_title?></title>
+	<title><?php echo $_config_title?></title>
 	<link rel="stylesheet" href="../../main.css" type=text/css>
 	<script src="../../inc/functions.js" type="text/javascript" language="javascript"></script>
 </head>
-<body onLoad="javascript:error('<?=$error?>');document.getElementsByName('kontaktperson_anrede')[0].focus();">
+<body onLoad="javascript:error('<?php echo $error?>');document.getElementsByName('kontaktperson_anrede')[0].focus();">
 <p class=titel>Kontakte:Kontaktperson</p>
-<?
+<?php
 
 $key = $_REQUEST["key"];
 
 print "<form method=post action=\"kontakt.php?key=$key\">\n";
 
-$key = $_REQUEST["key"];
 //= $key-1;
 
 //echo "key=".$key." kp bei key =".$kontaktpersonen[$key]['id']."-> ".$_REQUEST["key"];
@@ -111,7 +113,7 @@ print "<input type=submit name=submit value=\"Ändern\"> <input type=button oncli
 ?>
 
 
-<?
+<?php
 
   echo "<pre>";
   print_r($_SESSION);

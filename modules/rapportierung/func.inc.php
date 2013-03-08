@@ -1,4 +1,4 @@
-<?
+<?php
 function getRapportCodeList($formname,$projekt,$selected,$breite,$text_null) {
   $query = mysql_query("SELECT code, name FROM Rapportierung_code WHERE projekt='$projekt' ORDER BY name");
 	echo mysql_error();

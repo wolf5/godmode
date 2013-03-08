@@ -1,4 +1,4 @@
-<? 
+<?php 
 include("../../inc/config.inc.php");
 include("../../inc/func.inc.php");
 
@@ -68,12 +68,12 @@ if($submit) {
 ?>
 <html>
 <head>
-  <title><?=$_config_title?></title>
+  <title><?php echo $_config_title?></title>
 	<link rel="stylesheet" href="../../main.css" type=text/css>
 </head>
 <body>
 <p class=titel>Rechnungen:Rechnungen Exportieren</p>
-<?
+<?php
 if($err) {
 	print "<b>Fehler:</b> $err";
 }
@@ -98,7 +98,7 @@ if(mysql_error()) {
 		</tr>";
 	}
 	print "</table>
-		<form method=post value=\"$PHP_SELF?id=$id&back=".urlencode($back)."\">
+		<form method=post value=\"" . $_SERVER["PHP_SELF"] . "?id=$id&back=".urlencode($back)."\">
 		<input type=submit name=submit value=\"Ausführen\"> <input type=button value=\"Zurück\" onclick=\"javascript:location.href='$backno'\">
 		</form>";		
 }

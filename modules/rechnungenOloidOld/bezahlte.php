@@ -1,4 +1,4 @@
-<? 
+<?php 
 include("../../inc/config.inc.php");
   
 include("../../inc/func.inc.php");
@@ -6,16 +6,16 @@ include("../../inc/func.inc.php");
 
 <html>
 <head>
-  <title><?=$_config_title?></title>
+  <title><?php echo $_config_title?></title>
   <link rel="stylesheet" href="../../main.css" type=text/css>
 </head>
 <body onLoad="document.getElementById('term').focus()">
 <p class=titel>Rechnungen:Bezahlte Rechnungen</p>
-<form method=get action="<?=$PHP_SELF?>">
-<input type=text name=term id=term value="<?=$term?>">
+<form method=get action="<?php=$PHP_SELF?>">
+<input type=text name=term id=term value="<?php=$term?>">
 <input type=submit name=search value="Suchen">
 </form>
-<?
+<?php
 if($order=="datum"){
 	$order="ORDER BY rech.datum";
 } else if($order=="betreff") {

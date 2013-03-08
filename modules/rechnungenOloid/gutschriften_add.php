@@ -1,9 +1,13 @@
-<? 
+<?php 
 include("../../inc/config.inc.php");
-  
 include("../../inc/func.inc.php");
 
-if($submit) {
+$kontakt = isset($_GET["kontakt"]) ? $_GET["kontakt"] : NULL;
+$text = isset($_GET["text"]) ? $_GET["text"] : NULL;
+$waehrung = isset($_GET["waehrung"]) ? $_GET["waehrung"] : NULL;
+$betrag = isset($_GET["betrag"]) ? $_GET["betrag"] : NULL;
+
+if(isset($_GET["submit"])) {
 	$query=mysql_query("INSERT INTO Rechnungen_gutschriften(kontakt,text,betrag,waehrung,datum) values ('$kontakt','$text','$betrag','$waehrung',NOW())");
 	if($query){
 		header("Location: gutschriften.php");
@@ -14,16 +18,16 @@ if($submit) {
 ?>
 <html>
 <head>
-	<title><?=$_config_title?></title>
+	<title><?php echo $_config_title?></title>
 	<link rel="stylesheet" href="../../main.css" type=text/css>
 </head>
 <body onLoad="document.getElementsByName('kontakt')[0].focus()">
 <p class=titel>Rechnungen:Neue Gutschrift</p>
-<?
-	if($error){
+<?php
+	if(isset($error)){
 		print "<b>Fehler:</b> $error<br><br>";
 	}
-	print "<form method=post action=\"$PHP_SELF\">\n";
+	print "<form method=get action=\"" . $_SERVER["PHP_SELF"] . "\">\n";
 	print "<table border=0 cellpadding=0 cellspacing=0>
 		<tr>
 			<td width=150>Gutschrift zugunsten:</td>

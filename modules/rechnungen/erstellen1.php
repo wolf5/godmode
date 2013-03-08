@@ -1,28 +1,19 @@
-<? 
+<?php 
 session_start();
-session_unregister("gut");
-session_unregister("pos");
-session_unregister("adresse");
-session_unregister("betreff");
-session_unregister("datum");
-session_unregister("text");
-session_unregister("footer");
-session_unregister("id");
-session_unregister("waehrung");
-session_unregister("zahlungsfrist");
 include("../../inc/config.inc.php");
 include("../../inc/func.inc.php");
 include("func.inc.php");
+
 ?>
 
 <html>
 <head>
-  <title><?=$_config_title?></title>
+  <title><?php echo $_config_title?></title>
 	<link rel="stylesheet" href="../../main.css" type=text/css>
 </head>
 <body>
 <p class=titel>Rechnungen:Rechnungen erstellen</p>
-<?
+<?php
 print "<form method=post action=\"erstellen2.php?id=$id\">
 	<table width=100% border=0>
 	<tr>

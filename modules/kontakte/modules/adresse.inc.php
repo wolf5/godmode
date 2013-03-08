@@ -1,4 +1,5 @@
-<?
+<?php
+  
 	if(anredeIsPrivate($kontakt['anrede'])) {
 		$text_text1="Name";
 		$text_text2="Vorname";

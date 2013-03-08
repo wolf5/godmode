@@ -1,6 +1,10 @@
-<?
+<?php
 include("../../inc/config.inc.php");
 include("../../inc/func.inc.php");
+
+$fehler = isset($_GET["fehler"]) ? $_GET["fehler"] : NULL;
+$submit = isset($_GET["submit"]) ? $_GET["submit"] : NULL;
+$id = isset($_GET["id"]) ? $_GET["id"] : NULL;
 
 $HTTP_POST_VARS   = !empty($HTTP_POST_VARS)   ? $HTTP_POST_VARS   : $_POST;
 
@@ -20,18 +24,18 @@ if($submit) {
 ?>
 <html>
 <head>
-	<title><?=$_config_title?></title>
+	<title><?php echo $_config_title?></title>
 	<link rel="stylesheet" href="../../main.css" type=text/css>
 </head>
 <body onLoad="document.getElementsByName('nr_int')[0].focus()">
 <p class=titel>Produkte:Editieren</p>
-<?
+<?php
 if($fehler)
 	print "<b>Fehler:</b> $error<br><br>\n";
 	
 $query=mysql_query("SELECT nr_int,nr_ext,gruppe,text1,text2,preis1,preis2,preis3,preis4,rabattstufe,warenbestand FROM Produkte WHERE id='$id'");
 list($nr_int,$nr_ext,$gruppe,$text1,$text2,$preis1,$preis2,$preis3,$preis4,$rabattstufe,$warenbestand)=mysql_fetch_row($query);
-print "<form method=post action=\"$PHP_SELF?id=$id\">\n";
+print "<form method=get action=\"" . $_SERVER["PHP_SELF"] . "?id=$id\">\n";
 print "<table border=0>";
 
 if($_config_produkte_int_prod_nr)

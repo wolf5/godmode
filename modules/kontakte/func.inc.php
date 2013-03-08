@@ -1,4 +1,4 @@
-<?
+<?php
 function getKontakteList($formname,$selected,$breite,$text_null)
 {
   $query = mysql_query("SELECT id, firma, firma2 FROM Kontakte WHERE aktiv=1 ORDER BY firma");

@@ -46,7 +46,7 @@ $pdf->SetFont("Times","",24);
 $pdf->Text(40,15,"Sylon");
 $pdf->SetFont("Arial","",10);
 $pdf->SetFont("Arial","B",10);
-$txt=split("\n","Sylon\nPostfach 43\n4004 Basel\nTel. 061 383 85 77\nFax 061 383 85 76\nhttp://www.sylon.net\ninfo@sylon.net");
+$txt=explode("\n","Sylon\nPostfach 43\n4004 Basel\nTel. 061 383 85 77\nFax 061 383 85 76\nhttp://www.sylon.net\ninfo@sylon.net");
 for($i=0,$height=19;$txt[$i];$i++,$height+=4){
         if($i==1){
                 $pdf->SetFont("Arial","",10);

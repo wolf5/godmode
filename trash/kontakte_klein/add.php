@@ -1,4 +1,4 @@
-<?
+<?php
 include("../../inc/config.inc.php");
 include("../../inc/db.inc.php");
 include("../../inc/func.inc.php");
@@ -18,12 +18,12 @@ if($submit) {
 ?>
 <html>
 <head>
-	<title><?=$_config_title?></title>
+	<title><?php echo $_config_title?></title>
 	<link rel="stylesheet" href="../../main.css" type=text/css>
 </head>
 <body onLoad="document.getElementsByName('anrede')[0].focus()">
 <p class=titel>Kontakte:Hinzufügen</p>
-<?
+<?php
 if($fehler)
 	print "<b>Fehler:</b> $error<br><br>\n";
 print "<form method=post action=\"$PHP_SELF?id=$id&edit=1\">\n";

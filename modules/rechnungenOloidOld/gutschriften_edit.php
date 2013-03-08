@@ -1,4 +1,4 @@
-<? 
+<?php 
 include("../../inc/config.inc.php");
   
 include("../../inc/func.inc.php");
@@ -16,12 +16,12 @@ if($submit) {
 ?>
 <html>
 <head>
-	<title><?=$_config_title?></title>
+	<title><?php echo $_config_title?></title>
 	<link rel="stylesheet" href="../../main.css" type=text/css>
 </head>
 <body>
 <p class=titel>Rechnungen:Gutschrift Editieren</p>
-<?
+<?php
 	if($error){
 		print "<b>Fehler:</b> $error<br><br>";
 	}

@@ -1,4 +1,4 @@
-<?
+<?php
 include("../../inc/config.inc.php");
 include("../../inc/func.inc.php");
 include("func.inc.php");
@@ -26,12 +26,12 @@ if($submit) {
 ?>
 <html>
 <head>
-	<title><?=$_config_title?></title>
+	<title><?php echo $_config_title?></title>
 	<link rel="stylesheet" href="../../main.css" type=text/css>
 </head>
 <body>
 <p class=titel>Domains:Domain</p>
-<?
+<?php
 $query=mysql_query("SELECT dom.domain, dom.aliase,dom.kontakt, DATE_FORMAT(dom.startDate,'$_config_date'), dom.betrag, dom.waehrung,dom.abrechnungsart,dom.text FROM Domains dom WHERE dom.id='$id'");
 if(@mysql_num_rows($query)>0) {
 	if(!$query_update)
